@@ -33,11 +33,12 @@ igmp_header() {
 }
 
 igmp_add_phyint() {
-	local network direction altnets device up
+	local network direction altnets whitelists device up
 
 	config_get network $1 network
 	config_get direction $1 direction
 	config_get altnets $1 altnet
+	config_get whitelists $1 whitelist
 
 	local status="$(ubus -S call "network.interface.$network" status)"
 	[ -n "$status" ] || return
@@ -61,6 +62,13 @@ igmp_add_phyint() {
 		local altnet
 		for altnet in $altnets; do
 			echo -e "\taltnet $altnet" >> /var/etc/igmpproxy.conf
+		done
+	fi
+
+	if [ -n "$whitelists" ]; then
+		local whitelist
+		for whitelist in $whitelists; do
+			echo -e "\twhitelist $whitelist" >> /var/etc/igmpproxy.conf
 		done
 	fi
 }
