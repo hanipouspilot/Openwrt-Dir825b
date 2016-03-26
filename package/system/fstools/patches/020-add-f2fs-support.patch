@@ -1,0 +1,10 @@
+--- a/block.c	2016-03-17 13:12:20.000000000 +0300
++++ b/block.c	2016-03-26 15:43:29.068257687 +0300
+@@ -1084,6 +1084,7 @@
+ 	}
+ 	if (pr) {
+ 		if (strncmp(pr->id->name, "ext", 3) &&
++		    strncmp(pr->id->name, "f2fs", 4) &&
+ 		    strncmp(pr->id->name, "ubifs", 5)) {
+ 			ULOG_ERR("extroot: unsupported filesystem %s, try ext4\n", pr->id->name);
+ 			return -1;
